@@ -5,7 +5,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<form
+<form method="post">
+    <input type="text" name="username" placeholder="Введите имя пользователя"/></p>
+    <input type="text" name="password" placeholder="Введите пароль"/></p>
+    <button type="submit">Войти</button>
+</form>
 <p th:text="'Hello, ' + ${name} + '!'" />
 </body>
 </html>

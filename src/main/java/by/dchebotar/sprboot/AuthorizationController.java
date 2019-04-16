@@ -1,5 +1,6 @@
 package by.dchebotar.sprboot;
 
+import by.dchebotar.sprboot.domain.User;
 import by.dchebotar.sprboot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,11 +19,18 @@ public class AuthorizationController {
     public String main(){
         return "/main";
     }
+    @GetMapping("/login")
+    public String login(){
+        return "login";
+    }
 
-    /*@PostMapping("/login")
-    public String login(@RequestParam(name = "name", required = false, defaultValue = "") String name, Model model){
-        model.addAttribute("name", name);
+    @PostMapping
+    public String login(@RequestParam String username, String password){
+        User user = new User();
+        user.setName(username);
+        user.setPassword(password);
+        System.out.println(username + " " + password);
         return "/login";
-    }*/
+    }
 
 }
