@@ -1,24 +1,25 @@
 package by.dchebotar.sprboot.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    @Column(name = "name", unique = true)
     private String name;
     private String password;
     private String mail;
     private Role role;
 
 
+    public User() {
+    }
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -56,5 +57,16 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", mail='" + mail + '\'' +
+                ", role=" + role +
+                '}';
     }
 }

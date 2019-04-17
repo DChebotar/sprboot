@@ -10,15 +10,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
 @Controller
 public class AuthorizationController {
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public String main(){
-        return "/main";
+        return "main";
     }
+
     @GetMapping("/login")
     public String login(){
         return "login";
@@ -26,11 +28,20 @@ public class AuthorizationController {
 
     @PostMapping
     public String login(@RequestParam String username, String password){
-        User user = new User();
-        user.setName(username);
-        user.setPassword(password);
-        System.out.println(username + " " + password);
-        return "/login";
+        User user = userRepository.findByName(username);
+        if (user == null) return "login";
+        else {
+        if (user.getPassword().equals(password)){
+            return "work";
+        }
+        else return "login";
+        }
+    }
+
+    @GetMapping("/work")
+    public String work(String name, Model model){
+        //model.addAttribute("name", userRepository);
+        return "work";
     }
 
 }
