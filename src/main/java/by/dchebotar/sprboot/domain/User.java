@@ -1,6 +1,7 @@
 package by.dchebotar.sprboot.domain;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -8,32 +9,34 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-    @Column(name = "name", unique = true)
-    private String name;
+    private Long id;
+    @Column(name = "username", unique = true)
+    private String username;
     private String password;
     private String mail;
+    private boolean active;
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
-    private Role role;
-
+    private Set<Role> roles;
 
     public User() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -52,22 +55,19 @@ public class User {
         this.mail = mail;
     }
 
-    public Role getRole() {
-        return role;
+    public boolean isActive() {
+        return active;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", mail='" + mail + '\'' +
-                ", role=" + role +
-                '}';
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

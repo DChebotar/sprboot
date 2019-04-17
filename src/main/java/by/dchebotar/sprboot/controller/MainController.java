@@ -1,4 +1,4 @@
-package by.dchebotar.sprboot;
+package by.dchebotar.sprboot.controller;
 
 import by.dchebotar.sprboot.domain.User;
 import by.dchebotar.sprboot.repository.UserRepository;
@@ -12,21 +12,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
-public class AuthorizationController {
+public class MainController {
     @Autowired
     private UserRepository userRepository;
 
     @GetMapping("/")
-    public String main(){
-        return "main";
+    public String main(Model model){
+        return "login";
     }
 
-    @GetMapping("/login")
+    /*@GetMapping("/login")
     public String login(){
         return "login";
     }
 
-    @PostMapping
+    /*@PostMapping
     public String login(@RequestParam String username, String password){
         User user = userRepository.findByName(username);
         if (user == null) return "login";
@@ -36,7 +36,7 @@ public class AuthorizationController {
         }
         else return "login";
         }
-    }
+    }*/
 
     @GetMapping("/work")
     public String work(String name, Model model){
