@@ -13,7 +13,8 @@ public class User {
     private String name;
     private String password;
     private String mail;
-    //private Role role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
 
     public User() {
@@ -51,13 +52,13 @@ public class User {
         this.mail = mail;
     }
 
-    /*public Role getRole() {
+    public Role getRole() {
         return role;
     }
 
     public void setRole(Role role) {
         this.role = role;
-    }*/
+    }
 
     @Override
     public String toString() {
@@ -66,7 +67,7 @@ public class User {
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", mail='" + mail + '\'' +
-                //", role=" + role +
+                ", role=" + role +
                 '}';
     }
 }

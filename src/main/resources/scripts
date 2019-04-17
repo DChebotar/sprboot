@@ -1,0 +1,2 @@
+insert into USERS (id, mail, name, password, role)
+values (1, 'vaska@tut.by', 'vaska', '159753', 'user');
