@@ -22,7 +22,7 @@ public class RegistrationController {
         return "registration";
     }
 
-    @PostMapping()
+    @PostMapping("/registration")
     public String registration(User user, Model model){
         User userFromDB = userRepository.findByUsername(user.getUsername());
         if (userFromDB != null){
