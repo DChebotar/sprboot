@@ -7,7 +7,8 @@
     <title>Work page</title>
 </head>
 <p>
-<h5 th:inline="text">Здравствуйте, [[${#httpServletRequest.remoteUser}]]!    <form th:action="@{/logout}" method="post">
+<h5 th:inline="text">Здравствуйте, [[${#httpServletRequest.remoteUser}]]!
+    <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
 </form></h5>
 
@@ -20,21 +21,33 @@
     </form>
 </div>
 
-<div>Список сообщений</div>
+</p>
 
 <form method="post" action="filter">
     <button type="submit">Показать мои обращения</button>
 </form>
 
-<div>
-    <li th:each ="${applications}">
-    <p th:text="${application.id}"/>
-    <p th:text="${application.text}"/>
-    <p th:text="${application.addtimestamp}"/>
-    <p th:text="${application.authorName}"/>
-    <p th:text="${application.status}"/>
-    </li>
-</div>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Author</th>
+        <th>Application</th>
+        <th>Date accepted</th>
+        <th>Done accepted</th>
+        <th>Status</th>
+        <th>Responce</th>
+    </tr>
+    <tr th:each="count : ${applications}">
+        <td th:text="${count.id}"></td>
+        <td th:text="${count.author}"></td>
+        <td th:text="${count.text}"></td>
+        <td th:text="${count.addtimestamp}"></td>
+        <td th:text="${count.donetimestamp}"></td>
+        <td th:text="${count.status}"></td>
+        <td th:text="${count.response}"></td>
+    </tr>
+</table>
+
 
 </body>
 </html>
