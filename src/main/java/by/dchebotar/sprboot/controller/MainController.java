@@ -36,12 +36,12 @@ public class MainController {
         }
         else return "login";
         }
-    }*/
+    }
 
     @GetMapping("/work")
     public String work(String name, Model model){
         //model.addAttribute("name", userRepository);
         return "work";
-    }
+    }*/
 
 }

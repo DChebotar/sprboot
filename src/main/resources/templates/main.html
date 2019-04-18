@@ -1,13 +1,40 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<meta charset="UTF-8">
+
 <head>
     <title>Work page</title>
 </head>
-<body>
-<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-<form th:action="@{/logout}" method="post">
+<p>
+<h5 th:inline="text">Здравствуйте, [[${#httpServletRequest.remoteUser}]]!    <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
+</form></h5>
+
+</p>
+
+<div>
+    <form th:action="@{/main}" method="post">
+        <div><label> Напишите обращение <input type="text" name="text"/> </label></div>
+        <div><input type="submit" value="Отправить"/></div>
+    </form>
+</div>
+
+<div>Список сообщений</div>
+
+<form method="post" action="filter">
+    <button type="submit">Показать мои обращения</button>
 </form>
+
+<div>
+    <li th:each ="${applications}">
+    <p th:text="${application.id}"/>
+    <p th:text="${application.text}"/>
+    <p th:text="${application.addtimestamp}"/>
+    <p th:text="${application.authorName}"/>
+    <p th:text="${application.status}"/>
+    </li>
+</div>
+
 </body>
 </html>
