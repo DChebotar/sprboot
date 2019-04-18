@@ -39,7 +39,7 @@
     </tr>
     <tr th:each="count : ${applications}">
         <td th:text="${count.id}"></td>
-        <td th:text="${count.author}"></td>
+        <td th:text="${count.author.username}"></td>
         <td th:text="${count.text}"></td>
         <td th:text="${count.addtimestamp}"></td>
         <td th:text="${count.donetimestamp}"></td>
