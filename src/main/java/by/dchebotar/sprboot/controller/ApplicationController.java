@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.HashSet;
-import java.util.Set;
 
 @Controller
 public class ApplicationController {
@@ -39,6 +37,13 @@ public class ApplicationController {
     @PostMapping("/filter")
     public String filterByMyApplications(@AuthenticationPrincipal User user, Model model){
         Iterable<Application> applications = applicationRepository.findByAuthor(user);
+        model.addAttribute("applications", applications);
+        return "main";
+    }
+
+    @PostMapping("/allapp")
+    public String seeAllApp(Model model){
+        Iterable<Application> applications = applicationRepository.findAll();
         model.addAttribute("applications", applications);
         return "main";
     }

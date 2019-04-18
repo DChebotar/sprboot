@@ -22,10 +22,17 @@
 </div>
 
 </p>
-
-<form method="post" action="filter">
-    <button type="submit">Показать мои обращения</button>
+<div>
+<form th:action="@{/filter}" method="post">
+    <div><input type="submit" value="Показать мои обращения"/></div>
 </form>
+</div>
+
+<div>
+    <form th:action="@{/allapp}" method="post">
+        <div><input type="submit" value="Показать все обращения"/></div>
+    </form>
+</div>
 
 <table>
     <tr>
@@ -35,7 +42,7 @@
         <th>Date accepted</th>
         <th>Done accepted</th>
         <th>Status</th>
-        <th>Responce</th>
+        <th>Response</th>
     </tr>
     <tr th:each="count : ${applications}">
         <td th:text="${count.id}"></td>
