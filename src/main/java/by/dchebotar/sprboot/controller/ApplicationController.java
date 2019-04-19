@@ -19,9 +19,10 @@ public class ApplicationController {
     private ApplicationRepository applicationRepository;
 
     @GetMapping("/main")
-    public String main(Model model){
+    public String main(@AuthenticationPrincipal User user, Model model){
         Iterable<Application> applications = applicationRepository.findAll();
         model.addAttribute("applications", applications);
+        model.addAttribute("user", user);
         return "main";
     }
 
@@ -47,5 +48,7 @@ public class ApplicationController {
         model.addAttribute("applications", applications);
         return "main";
     }
+
+
 
 }

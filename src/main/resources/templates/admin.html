@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<meta charset="UTF-8">
+
+<head>
+    <title>Administration page</title>
+</head>
+<p>
+<h5 th:inline="text">Здравствуйте, [[${#httpServletRequest.remoteUser}]]!
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form></h5>
+
+</p>
+
+<div>
+    <form th:action="@{/filterByStatus}" method="post">
+        <input type="submit" value="Показать on-line пользователей"/>
+    </form>
+</div>
+
+<div>
+    <form th:action="@{/filterByName}" method="post">
+        <div><input type="text", name="username"></div>
+        <div><input type="submit" value="Найти"/></div>
+    </form>
+</div>
+
+<div>
+    <form th:action="@{/allusers}" method="post">
+        <div><input type="submit" value="Показать всех пользователей"/></div>
+    </form>
+</div>
+
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Username</th>
+        <th>Mail</th>
+        <th>Activity</th>
+        <th>Roles</th>
+    </tr>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.mail}"></td>
+        <td th:text="${user.active}"></td>
+        <td th:text="${user.roles}"></td>
+    </tr>
+</table>
+
+
+</body>
+</html>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <meta charset="UTF-8">
 
 <head>
@@ -12,6 +12,8 @@
     <input type="submit" value="Sign Out"/>
 </form></h5>
 
+</p>
+<div sec:authorize="hasAnyAuthority('ADMIN')"><a href="/admin">Перейти к администрированию</a> </div>
 </p>
 
 <div>
@@ -44,14 +46,14 @@
         <th>Status</th>
         <th>Response</th>
     </tr>
-    <tr th:each="count : ${applications}">
-        <td th:text="${count.id}"></td>
-        <td th:text="${count.author.username}"></td>
-        <td th:text="${count.text}"></td>
-        <td th:text="${count.addtimestamp}"></td>
-        <td th:text="${count.donetimestamp}"></td>
-        <td th:text="${count.status}"></td>
-        <td th:text="${count.response}"></td>
+    <tr th:each="app : ${applications}">
+        <td th:text="${app.id}"></td>
+        <td th:text="${app.author.username}"></td>
+        <td th:text="${app.text}"></td>
+        <td th:text="${app.addtimestamp.toString().substring(0,16)}"></td>
+        <td th:text="${app.donetimestamp}"></td>
+        <td th:text="${app.status}"></td>
+        <td th:text="${app.response}"></td>
     </tr>
 </table>
 
