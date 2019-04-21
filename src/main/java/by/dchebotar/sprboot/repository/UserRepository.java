@@ -7,6 +7,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     User findByUsername(String name);
 
-    Iterable<User> findUsersByActive(boolean active);
+    Iterable<User> findByActive(boolean active);
+
 
 }

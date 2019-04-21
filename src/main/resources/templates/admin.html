@@ -19,20 +19,24 @@
         <input type="submit" value="Показать on-line пользователей"/>
     </form>
 </div>
-
+</p>
 <div>
     <form th:action="@{/filterByName}" method="post">
         <div><input type="text", name="username"></div>
         <div><input type="submit" value="Найти"/></div>
     </form>
 </div>
-
+</p>
+<div th:if="${message}">
+    <p th:text="${message}" />
+</div>
+</p>
 <div>
     <form th:action="@{/allusers}" method="post">
         <div><input type="submit" value="Показать всех пользователей"/></div>
     </form>
 </div>
-
+</p>
 <table>
     <tr>
         <th>Id</th>
@@ -47,6 +51,7 @@
         <td th:text="${user.mail}"></td>
         <td th:text="${user.active}"></td>
         <td th:text="${user.roles}"></td>
+        <td> <a th:href="@{'/useredit/'+${user.id}}">edit</a></td>
     </tr>
 </table>
 

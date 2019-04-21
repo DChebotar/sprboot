@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<meta charset="UTF-8">
+
+<head>
+    <title>User page</title>
+</head>
+<p>
+<h5 th:inline="text">Здравствуйте, [[${#httpServletRequest.remoteUser}]]!
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form></h5>
+
+</p>
+
+<div>
+    <form th:action="@{/useredit}" method="post">
+        <input type="text" name="username" th:value="${user.username}" >
+        <input type="text" name="mail" th:value="${user.mail}">
+        <input type="text" name="passrord" th:value="${user.password}">
+        <input type="hidden" name="id" th:value="${user.id}">
+        <block th:each="role : ${roles}">
+            <div>
+                <label><input type="checkbox" th:name="${role}" th:value="${role}" th:checked="${#sets.contains(user.roles, role)}">[[${role}]]</label>
+            </div>
+        </block>
+        <div><input type="submit" value="Save"/></div>
+    </form>
+
+</div>
+
+<a href="/admin">Back</a>
+
+
+</body>
+</html>
