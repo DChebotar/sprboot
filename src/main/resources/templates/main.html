@@ -4,60 +4,69 @@
 <meta charset="UTF-8">
 
 <head th:replace="~{parts/common :: header}">
-    <title>Work page</title>
+    <title>Main page</title>
 </head>
-<p>
-<h5 th:inline="text">Здравствуйте, [[${#httpServletRequest.remoteUser}]]!
-    <form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
-</form></h5>
 
-</p>
-<div sec:authorize="hasAnyAuthority('ADMIN')"><a href="/admin">Перейти к администрированию</a> </div>
-</p>
+<body>
 
-<div>
-    <form th:action="@{/main}" method="post">
-        <div><label> Напишите обращение <input type="text" name="text"/> </label></div>
-        <div><input type="submit" value="Отправить"/></div>
-    </form>
+    <div th:insert="parts/navbar"></div>
+
+    <div class="container mt-5">
+
+        <a class="btn btn-primary mt-3" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Leave appeal
+        </a>
+    <div class="collapse mt-3" id="collapseExample">
+        <form th:action="@{/main}" method="post">
+            <div class="form-group">
+                <textarea class="form-control" name="text" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+            <div>
+                <input class="btn btn-primary" type="submit" value="Send"/>
+            </div>
+        </form>
+    </div>
+
+    <div>
+        <form th:action="@{/filter}" method="post">
+            <div>
+                <input class="btn btn-primary mt-3" type="submit" value="Show my appeals"/>
+            </div>
+        </form>
+    </div>
+
+    <div>
+        <form th:action="@{/allapp}" method="post">
+            <div>
+                <input class="btn btn-primary mt-3" type="submit" value="Show all appeals"/>
+            </div>
+        </form>
+    </div>
+
+    <table class="table mt-3">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Author</th>
+            <th scope="col">Application</th>
+            <th scope="col">Date accepted</th>
+            <th scope="col">Done accepted</th>
+            <th scope="col">Status</th>
+            <th scope="col">Response</th>
+        </tr>
+        </thead>
+        <tr th:each="app : ${applications}">
+            <td th:text="${app.author.username}"></td>
+            <td th:text="${app.text}"></td>
+            <td th:text="${app.addtimestamp.toString().substring(0,16)}"></td>
+            <td th:text="${app.donetimestamp}"></td>
+            <td th:text="${app.status}"></td>
+            <td th:text="${app.response}"></td>
+        </tr>
+    </table>
+
 </div>
 
-</p>
-<div>
-<form th:action="@{/filter}" method="post">
-    <div><input type="submit" value="Показать мои обращения"/></div>
-</form>
-</div>
-</p>
-
-<div>
-    <form th:action="@{/allapp}" method="post">
-        <div><input type="submit" value="Показать все обращения"/></div>
-    </form>
-</div>
-</p>
-<table>
-    <tr>
-        <th>Id</th>
-        <th>Author</th>
-        <th>Application</th>
-        <th>Date accepted</th>
-        <th>Done accepted</th>
-        <th>Status</th>
-        <th>Response</th>
-    </tr>
-    <tr th:each="app : ${applications}">
-        <td th:text="${app.id}"></td>
-        <td th:text="${app.author.username}"></td>
-        <td th:text="${app.text}"></td>
-        <td th:text="${app.addtimestamp.toString().substring(0,16)}"></td>
-        <td th:text="${app.donetimestamp}"></td>
-        <td th:text="${app.status}"></td>
-        <td th:text="${app.response}"></td>
-    </tr>
-</table>
-
+<div th:replace="~{parts/common :: lib}"></div>
 
 </body>
 </html>

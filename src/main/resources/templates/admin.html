@@ -5,10 +5,14 @@
 
 <meta charset="UTF-8">
 
-<head>
+<head th:replace="parts/common :: header">
     <title>Administration page</title>
 </head>
-<p>
+
+<body>
+
+<div class="container mt-5">
+
 <h5 th:inline="text">Здравствуйте, [[${#httpServletRequest.remoteUser}]]!
     <form th:action="@{/logout}" method="post">
         <input type="submit" value="Sign Out"/>
@@ -57,6 +61,9 @@
     </tr>
 </table>
 
+</div>
+
+<div th:replace="~{parts/common :: lib}"></div>
 
 </body>
 </html>
