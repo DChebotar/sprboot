@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+
 <meta charset="UTF-8">
 
 <head>
@@ -15,13 +17,13 @@
 </p>
 
 <div>
-    <form th:action="@{/filterByStatus}" method="post">
+    <form th:action="@{/admin/filterByStatus}" method="post">
         <input type="submit" value="Показать on-line пользователей"/>
     </form>
 </div>
 </p>
 <div>
-    <form th:action="@{/filterByName}" method="post">
+    <form th:action="@{/admin/filterByName}" method="post">
         <div><input type="text", name="username"></div>
         <div><input type="submit" value="Найти"/></div>
     </form>
@@ -32,7 +34,7 @@
 </div>
 </p>
 <div>
-    <form th:action="@{/allusers}" method="post">
+    <form th:action="@{/admin/allusers}" method="post">
         <div><input type="submit" value="Показать всех пользователей"/></div>
     </form>
 </div>
@@ -51,7 +53,7 @@
         <td th:text="${user.mail}"></td>
         <td th:text="${user.active}"></td>
         <td th:text="${user.roles}"></td>
-        <td> <a th:href="@{'/useredit/'+${user.id}}">edit</a></td>
+        <td> <a th:href="@{'/admin/useredit/'+${user.id}}">edit</a></td>
     </tr>
 </table>
 

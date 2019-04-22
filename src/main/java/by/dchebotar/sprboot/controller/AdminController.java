@@ -4,23 +4,23 @@ import by.dchebotar.sprboot.domain.Role;
 import by.dchebotar.sprboot.domain.User;
 import by.dchebotar.sprboot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
+@RequestMapping("/admin")
+
 public class AdminController {
 
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/admin")
+    @GetMapping
     public String admin(Model model){
         Iterable<User> users = userRepository.findAll();
         model.addAttribute("users", users);
