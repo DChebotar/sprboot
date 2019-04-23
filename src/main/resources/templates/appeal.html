@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<meta charset="UTF-8">
+
+<head th:replace="parts/common :: header">
+    <title>Appeal page</title>
+</head>
+
+<body>
+
+<div th:insert="parts/navbar :: navbar (${false}, ${false})"></div>
+
+<div class="container mt-5">
+
+    <form th:action="@{/admin/appeal/delete}" method="post">
+
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <input class="btn btn-primary" type="submit" value="Delete appeal"/>
+            </div>
+        </div>
+        <input type="hidden" name="id" th:value="${appeal.id}">
+
+    </form>
+
+    <div class="form-group">
+        <label for="exampleFormControlTextarea1">Appeal</label>
+        <textarea class="form-control" rows="3" th:placeholder="${text}"></textarea>
+    </div>
+
+    <form th:action="@{/admin/appeal}" method="post">
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Response</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="response"></textarea>
+        </div>
+        <input type="hidden" name="id" th:value="${appeal.id}">
+
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <input class="btn btn-primary" type="submit" value="Get response"/>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+<div th:replace="~{parts/common :: lib}"></div>
+
+</body>
+</html>

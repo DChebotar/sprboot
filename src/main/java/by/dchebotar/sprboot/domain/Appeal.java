@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-public class Application {
+public class Appeal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,10 +23,10 @@ public class Application {
 
     private String response;
 
-    public Application() {
+    public Appeal() {
     }
 
-    public Application(String text, User user) {
+    public Appeal(String text, User user) {
         this.text = text;
         this.author = user;
         this.status = Status.ACCEPTED;
