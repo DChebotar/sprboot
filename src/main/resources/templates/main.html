@@ -9,13 +9,14 @@
 
 <body>
 
-    <div th:insert="parts/navbar"></div>
+<div th:insert="parts/navbar :: navbar (${false}, ${false})"></div>
 
-    <div class="container mt-5">
+<div class="container mt-5">
 
-        <a class="btn btn-primary mt-3" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-            Leave appeal
-        </a>
+    <a class="btn btn-primary mt-3" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+       aria-controls="collapseExample">
+        Leave appeal
+    </a>
     <div class="collapse mt-3" id="collapseExample">
         <form th:action="@{/main}" method="post">
             <div class="form-group">
@@ -47,7 +48,7 @@
         <thead class="thead-dark">
         <tr>
             <th scope="col">Author</th>
-            <th scope="col">Application</th>
+            <th scope="col">Appeal</th>
             <th scope="col">Date accepted</th>
             <th scope="col">Done accepted</th>
             <th scope="col">Status</th>

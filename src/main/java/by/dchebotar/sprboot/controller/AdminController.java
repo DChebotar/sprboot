@@ -65,12 +65,14 @@ public class AdminController {
     public String saveEdit(@RequestParam String username,
                            @RequestParam String mail,
                            @RequestParam String passrord,
+                           @RequestParam String active,
                            @RequestParam Map<String, String> form,
                            @RequestParam("id") User user,
                            Model model){
         user.setUsername(username);
         user.setMail(mail);
         user.setPassword(passrord);
+        user.setActive(Boolean.valueOf(active));
         user.getRoles().clear();
 
         Set<Role> roles = Arrays.stream(Role.values()).collect(Collectors.toSet());

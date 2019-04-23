@@ -9,32 +9,59 @@
 
 <body>
 
+<div th:insert="parts/navbar :: navbar (${false}, ${false})"></div>
+
 <div class="container mt-5">
 
-<h5 th:inline="text">Здравствуйте, [[${#httpServletRequest.remoteUser}]]!
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Sign Out"/>
-    </form></h5>
 
-</p>
-
-<div>
     <form th:action="@{/admin/useredit}" method="post">
-        <input type="text" name="username" th:value="${user.username}" >
-        <input type="text" name="mail" th:value="${user.mail}">
-        <input type="text" name="passrord" th:value="${user.password}">
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"> User Name : </label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="username" th:value="${user.username}">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"> e-mail : </label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="mail" th:value="${user.mail}">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"> Password: </label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="passrord" th:value="${user.password}">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"> Active: </label>
+            <div class="col-sm-6">
+                <select class="custom-select mr-sm-2" name="active">
+                    <option selected th:value="${user.active}">[[${user.active}]]</option>
+                    <option th:value="${!user.active}">[[${!user.active}]]</option>
+                </select>
+            </div>
+        </div>
         <input type="hidden" name="id" th:value="${user.id}">
         <block th:each="role : ${roles}">
-            <div>
-                <label><input type="checkbox" th:name="${role}" th:value="${role}" th:checked="${#sets.contains(user.roles, role)}">[[${role}]]</label>
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="form-check">
+                    <label class="form-check-label"><input class="form-check-input" type="checkbox" th:name="${role}"
+                                                           th:value="${role}"
+                                                           th:checked="${#sets.contains(user.roles, role)}">[[${role}]]</label>
+                </div>
             </div>
         </block>
-        <div><input type="submit" value="Save"/></div>
+
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <input class="btn btn-primary" type="submit" value="Save"/>
+            </div>
+        </div>
+
     </form>
-
-</div>
-
-<a href="/admin">Back</a>
 
 </div>
 
