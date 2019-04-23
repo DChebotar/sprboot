@@ -32,11 +32,14 @@ public class AppealController {
 
     @PostMapping("/main")
     public String add(@AuthenticationPrincipal User user, @RequestParam String text, Model model){
+        if (text == null || text.isEmpty()){
+            return "redirect:/main";
+        }
         Appeal appeal = new Appeal(text, user);
         appealRepository.save(appeal);
         Iterable<Appeal> appeals = appealRepository.findAll();
         model.addAttribute("appeals", appeals);
-        return "main";
+        return "redirect:/main";
     }
 
     @PostMapping("/filter")
