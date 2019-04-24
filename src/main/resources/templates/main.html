@@ -68,7 +68,8 @@
             <td th:text="${app.author.username}"></td>
             <td th:text="${app.text}"></td>
             <td th:text="${app.addtimestamp.toString().substring(0,16)}"></td>
-            <td th:text="${app.donetimestamp}"></td>
+            <td th:if="${app.donetimestamp} != null" th:text="${app.donetimestamp.toString().substring(0,16)}"></td>
+            <td th:if="${app.donetimestamp} == null" th:text="' - '"></td>
             <td th:text="${app.status}"></td>
             <td th:text="${app.response}"></td>
             <td sec:authorize="hasAnyAuthority('ADMIN')">
