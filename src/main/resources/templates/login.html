@@ -33,8 +33,7 @@
             </div>
         </div>
 
-        <div th:if="${massage}" th:text="${message}">
-        </div>
+        <div th:if="${message}">[[${message}]]</div>
 
         <div th:if="${param.error}">
             Invalid username or password

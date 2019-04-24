@@ -49,7 +49,9 @@ public class UserService implements UserDetailsService {
                     String message;
                     StringBuilder builder = new StringBuilder("Hello, ");
                     builder.append(user.getUsername());
-                    builder.append("! \n Welcome to Appeal. Please, visit next link: ");
+                    builder.append("!");
+                    builder.append(System.getProperty("line.separator"));
+                    builder.append("Welcome to Appeal. Please, visit next link: ");
                     builder.append(prop);
                     builder.append(user.getActivationCode());
                     System.out.println(builder);
@@ -71,6 +73,7 @@ public class UserService implements UserDetailsService {
            return false;
        }
        user.setActivationCode(null);
+       user.setActive(true);
        userRepository.save(user);
        return true;
     }
