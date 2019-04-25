@@ -72,6 +72,7 @@ public class UserService implements UserDetailsService {
     }
 
     public void saveUser(User user, String username, String passrord, String mail, boolean active, Map<String, String> form) {
+        user.getRoles().clear();
         Set<Role> roles = Arrays.stream(Role.values()).collect(Collectors.toSet());
         for (Role role : roles) {
             if (form.containsKey(role.toString())){
@@ -82,8 +83,6 @@ public class UserService implements UserDetailsService {
         user.setMail(mail);
         user.setPassword(passrord);
         user.setActive(active);
-        user.getRoles().clear();
-        user.setRoles(roles);
         userRepository.save(user);
     }
 

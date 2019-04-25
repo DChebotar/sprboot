@@ -30,7 +30,7 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label"> Password: </label>
             <div class="col-sm-6">
-                <input class="form-control" type="text" name="passrord" th:value="${user.password}">
+                <input class="form-control" type="text" name="password" th:value="${user.password}">
             </div>
         </div>
 
@@ -71,6 +71,10 @@
             </div>
         </div>
     </form>
+
+    <div th:if="${message}">
+        <p th:text="${message}"/>
+    </div>
 
 </div>
 

@@ -61,17 +61,17 @@ public class AdminController {
     @PostMapping("/useredit")
     public String saveEdit(@RequestParam String username,
                            @RequestParam String mail,
-                           @RequestParam String passrord,
+                           @RequestParam String password,
                            @RequestParam String active,
                            @RequestParam Map<String, String> form,
                            @RequestParam("id") User user,
                            Model model){
-        if (!StringUtils.isEmpty(user.getUsername()) && !StringUtils.isEmpty(user.getPassword()) && !StringUtils.isEmpty(user.getMail())){
-            userService.saveUser(user, username, passrord, mail, Boolean.valueOf(active), form);
+        if (!StringUtils.isEmpty(username) && !StringUtils.isEmpty(password) && !StringUtils.isEmpty(mail)){
+            userService.saveUser(user, username, password, mail, Boolean.valueOf(active), form);
         }
         else {
             model.addAttribute("message", "All fields must be filled");
-            return "useredit";
+            return "redirect:/admin/useredit/" + user.getId();
         }
         return "redirect:/admin";
     }
