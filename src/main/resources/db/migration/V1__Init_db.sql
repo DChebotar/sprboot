@@ -1,14 +1,14 @@
-create sequence hibernate_sequence start with  1 increment by 1;
+create sequence hibernate_sequence start 2 increment 1;
 
 create table appeal (
- id int8 not null,
- addtimestamp timestamp,
- donetimestamp timestamp,
- response varchar(2048),
- status varchar(255),
- text varchar(2048),
- user_id int8,
- primary key (id)
+id int8 not null,
+addtimestamp timestamp,
+donetimestamp timestamp,
+response varchar(2048),
+status varchar(255),
+text varchar(2048),
+user_id int8,
+primary key (id)
 );
 
 create table user_role (
@@ -20,20 +20,20 @@ create table users (
 id int8 not null,
 activation_code varchar(255),
 active boolean not null,
-mail varchar(255),
-password varchar(255) not null,
-username varchar(255) not null,
+mail varchar(255) not null,
+password varchar(255),
+username varchar(255),
 primary key (id)
 );
 
 alter table if exists users
-add constraint users_username_fk
+add constraint UK_r43af9ap4edm43mmtq01oddj6
 unique (username);
 
 alter table if exists appeal
-add constraint appeal_user_fk
+add constraint FKn1an9lq9scvn1qjbt3uwlj1g8
 foreign key (user_id) references users;
 
 alter table if exists user_role
-add constraint user_role_user_fk
+add constraint FKj345gk1bovqvfame88rcx7yyx
 foreign key (user_id) references users;

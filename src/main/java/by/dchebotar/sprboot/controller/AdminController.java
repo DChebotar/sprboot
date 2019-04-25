@@ -6,12 +6,10 @@ import by.dchebotar.sprboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
@@ -68,13 +66,13 @@ public class AdminController {
                            @RequestParam Map<String, String> form,
                            @RequestParam("id") User user,
                            Model model){
-        Set<Role> roles = Arrays.stream(Role.values()).collect(Collectors.toSet());
-        for (Role role : roles) {
-            if (form.containsKey(role.toString())){
-                user.getRoles().add(role);
-            }
+        if (!StringUtils.isEmpty(user.getUsername()) && !StringUtils.isEmpty(user.getPassword()) && !StringUtils.isEmpty(user.getMail())){
+            userService.saveUser(user, username, passrord, mail, Boolean.valueOf(active), form);
         }
-        userService.saveUser(user, username, passrord, mail, Boolean.valueOf(active), roles);
+        else {
+            model.addAttribute("message", "All fields must be filled");
+            return "useredit";
+        }
         return "redirect:/admin";
     }
 

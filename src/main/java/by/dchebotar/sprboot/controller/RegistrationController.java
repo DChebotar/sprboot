@@ -5,6 +5,7 @@ import by.dchebotar.sprboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,11 +23,16 @@ public class RegistrationController {
 
     @PostMapping("/registration")
     public String registration(User user, Model model){
-        if (userService.addUser(user) == false){
-            model.addAttribute("message", "User exists!");
+        if (!StringUtils.isEmpty(user.getUsername()) && !StringUtils.isEmpty(user.getPassword()) && !StringUtils.isEmpty(user.getMail())) {
+            if (userService.addUser(user) == false) {
+                model.addAttribute("message", "User exists!");
+                return "registration";
+            }
+            model.addAttribute("message", "Сonfirm registration by following the link in your mail");
+        } else {
+            model.addAttribute("message", "All fields must be filled");
             return "registration";
         }
-        model.addAttribute("message", "Сonfirm registration by following the link in your mail");
         return "redirect:/login";
     }
 
@@ -41,6 +47,4 @@ public class RegistrationController {
         }
         return "login";
     }
-
-
 }

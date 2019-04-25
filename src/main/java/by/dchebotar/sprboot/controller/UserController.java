@@ -1,5 +1,6 @@
 package by.dchebotar.sprboot.controller;
 
+import by.dchebotar.sprboot.domain.Role;
 import by.dchebotar.sprboot.domain.User;
 import by.dchebotar.sprboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Set;
+
 
 @Controller
 public class UserController {
@@ -27,7 +31,9 @@ public class UserController {
                               @RequestParam String mail,
                               @RequestParam String password,
                               Model model){
-        userService.saveUser(user, user.getUsername(), password, mail == null ? "" : mail, user.isActive(), user.getRoles());
-        return "profile";
+
+        Set<Role> roleSet = user.getRoles();
+        userService.updateUser(user, password, mail == null ? "" : mail);
+        return "redirect:/profile";
     }
 }
