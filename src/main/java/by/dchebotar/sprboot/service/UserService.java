@@ -11,9 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.io.*;
-import java.util.Collections;
-import java.util.Properties;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -51,7 +50,7 @@ public class UserService implements UserDetailsService {
                     builder.append(user.getUsername());
                     builder.append("!");
                     builder.append(System.getProperty("line.separator"));
-                    builder.append("Welcome to Appeal. Please, visit next link: ");
+                    builder.append("Welcome to Appeal. Please, visit next link to: ");
                     builder.append(prop);
                     builder.append(user.getActivationCode());
                     System.out.println(builder);
@@ -76,5 +75,36 @@ public class UserService implements UserDetailsService {
        user.setActive(true);
        userRepository.save(user);
        return true;
+    }
+
+    public Iterable<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public Set<User> getListOfUsersByUsername(String username) {
+        User user = userRepository.findByUsername(username);
+        Set<User> userList = new HashSet<>();
+        if (user !=null){
+            userList.add(user);
+        }
+        return userList;
+    }
+
+    public Iterable<User> getActiveUsers() {
+        return userRepository.findByActive(true);
+    }
+
+    public void saveUser(User user, String username, String passrord, String mail, boolean active, Set<Role> roles) {
+        user.setUsername(username);
+        user.setMail(mail);
+        user.setPassword(passrord);
+        user.setActive(active);
+        user.getRoles().clear();
+
+        userRepository.save(user);
+    }
+
+    public void deleteUser(User user) {
+        userRepository.delete(user);
     }
 }

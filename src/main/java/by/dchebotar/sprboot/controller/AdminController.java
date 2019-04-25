@@ -2,14 +2,15 @@ package by.dchebotar.sprboot.controller;
 
 import by.dchebotar.sprboot.domain.Role;
 import by.dchebotar.sprboot.domain.User;
-import by.dchebotar.sprboot.repository.UserRepository;
+import by.dchebotar.sprboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -18,23 +19,21 @@ import java.util.stream.Collectors;
 public class AdminController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @GetMapping
     public String admin(Model model){
-        Iterable<User> users = userRepository.findAll();
+        Iterable<User> users = userService.getAllUsers();
         model.addAttribute("users", users);
         return "admin";
     }
 
     @PostMapping("/filterByName")
     public String filterByName(@RequestParam String username, Model model){
-        User user = userRepository.findByUsername(username);
-        Set<User> userList = new HashSet<>();
-        if (user !=null){
-        userList.add(user);
-        model.addAttribute("users", userList);
-        return "admin";
+        Set<User> users = userService.getListOfUsersByUsername(username);
+        if (!users.isEmpty()){
+            model.addAttribute("users", users);
+            return "admin";
         }
         model.addAttribute("message", "User is not found!");
         return "admin";
@@ -42,14 +41,14 @@ public class AdminController {
 
     @PostMapping("/filterByStatus")
     public String filterByActiv(Model model){
-        Iterable<User> users = userRepository.findByActive(true);
+        Iterable<User> users = userService.getActiveUsers();
         model.addAttribute("users", users);
         return "admin";
     }
 
     @PostMapping("/allusers")
     public String seeAll(Model model){
-        Iterable<User> users = userRepository.findAll();
+        Iterable<User> users = userService.getAllUsers();
         model.addAttribute("users", users);
         return "admin";
     }
@@ -69,19 +68,20 @@ public class AdminController {
                            @RequestParam Map<String, String> form,
                            @RequestParam("id") User user,
                            Model model){
-        user.setUsername(username);
-        user.setMail(mail);
-        user.setPassword(passrord);
-        user.setActive(Boolean.valueOf(active));
-        user.getRoles().clear();
-
         Set<Role> roles = Arrays.stream(Role.values()).collect(Collectors.toSet());
         for (Role role : roles) {
             if (form.containsKey(role.toString())){
                 user.getRoles().add(role);
             }
         }
-        userRepository.save(user);
+        userService.saveUser(user, username, passrord, mail, Boolean.valueOf(active), roles);
         return "redirect:/admin";
     }
+
+    @PostMapping("/useredit/delete")
+    public String deleteUser(@RequestParam("id") User user){
+        userService.deleteUser(user);
+        return "redirect:/admin";
+    }
+
 }

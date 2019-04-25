@@ -63,6 +63,15 @@
 
     </form>
 
+    <form th:action="@{/admin/useredit/delete}" method="post">
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <input type="hidden" name="id" th:value="${user.id}">
+                <input class="btn btn-primary" type="submit" value="Delete"/>
+            </div>
+        </div>
+    </form>
+
 </div>
 
 <div th:replace="~{parts/common :: lib}"></div>
