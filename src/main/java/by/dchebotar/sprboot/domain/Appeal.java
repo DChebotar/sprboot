@@ -1,6 +1,9 @@
 package by.dchebotar.sprboot.domain;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
 
 @Entity
@@ -9,7 +12,8 @@ public class Appeal {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    @NotBlank(message = "Please? fill the appeal")
+    @Length(max = 2048, message = "Appeal too long (more than 2kB)")
     private String text;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")

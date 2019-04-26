@@ -73,9 +73,9 @@
             <td th:text="${app.status}"></td>
             <td th:text="${app.response}"></td>
             <td sec:authorize="hasAnyAuthority('ADMIN')">
-            <form th:action="@{'/admin/appeal/'+${app.id}}" method="get">
-            <input class="btn btn-primary" type="submit" value="response"/>
-            </form>
+                <form th:action="@{'/admin/appeal/'+${app.id}}" method="get">
+                    <input class="btn btn-primary" type="submit" value="response"/>
+                </form>
             </td>
         </tr>
     </table>

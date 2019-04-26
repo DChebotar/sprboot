@@ -8,12 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import javax.validation.Valid;
 import java.sql.Timestamp;
+import java.util.Map;
+
 
 
 @Controller
@@ -31,15 +34,23 @@ public class AppealController {
     }
 
     @PostMapping("/main")
-    public String add(@AuthenticationPrincipal User user, @RequestParam String text, Model model){
-        if (text == null || text.isEmpty()){
-            return "redirect:/main";
+    public String add(@AuthenticationPrincipal User user, @Valid Appeal appeal, BindingResult bindingResult, Model model){
+        appeal.setAuthor(user);
+
+        if (bindingResult.hasErrors()){
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errorsMap);
+            model.addAttribute("appeal", appeal);
         }
-        Appeal appeal = new Appeal(text, user);
+        else {
+            appealRepository.save(appeal);
+            Iterable<Appeal> appeals = appealRepository.findAll();
+            model.addAttribute("appeals", appeals);
+        }
         appealRepository.save(appeal);
-        Iterable<Appeal> appeals = appealRepository.findAll();
-        model.addAttribute("appeals", appeals);
-        return "redirect:/main";
+        model.addAttribute("appeal", null);
+            return "redirect:/main";
+
     }
 
     @PostMapping("/filter")
