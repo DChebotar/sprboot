@@ -35,7 +35,7 @@ public class UserService implements UserDetailsService {
 
     public boolean addUser(User user) {
         User userFromDB = userRepository.findByUsername(user.getUsername());
-        if (userFromDB != null){
+        if (userFromDB != null) {
             return false;
         } else {
             user.setActive(false);
@@ -49,14 +49,14 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean activateUser(String activationcode) {
-       User user = userRepository.findByActivationCode(activationcode);
-       if (user == null){
-           return false;
-       }
-       user.setActivationCode(null);
-       user.setActive(true);
-       userRepository.save(user);
-       return true;
+        User user = userRepository.findByActivationCode(activationcode);
+        if (user == null) {
+            return false;
+        }
+        user.setActivationCode(null);
+        user.setActive(true);
+        userRepository.save(user);
+        return true;
     }
 
     public Iterable<User> getAllUsers() {
@@ -66,7 +66,7 @@ public class UserService implements UserDetailsService {
     public Set<User> getListOfUsersByUsername(String username) {
         User user = userRepository.findByUsername(username);
         Set<User> userList = new HashSet<>();
-        if (user !=null){
+        if (user != null) {
             userList.add(user);
         }
         return userList;
@@ -80,7 +80,7 @@ public class UserService implements UserDetailsService {
         user.getRoles().clear();
         Set<Role> roles = Arrays.stream(Role.values()).collect(Collectors.toSet());
         for (Role role : roles) {
-            if (form.containsKey(role.toString())){
+            if (form.containsKey(role.toString())) {
                 user.getRoles().add(role);
             }
         }
@@ -93,9 +93,9 @@ public class UserService implements UserDetailsService {
         userRepository.delete(user);
     }
 
-    public void sendActivationCode(User user){
+    public void sendActivationCode(User user) {
         if (!StringUtils.isEmpty(user.getMail())) {
-            try (FileReader reader = new FileReader("src\\main\\resources\\properties.properties")){
+            try (FileReader reader = new FileReader("src\\main\\resources\\properties.properties")) {
                 Properties properties = new Properties();
                 properties.load(reader);
                 String prop = properties.getProperty("message_to_activate_user");
@@ -104,34 +104,38 @@ public class UserService implements UserDetailsService {
                 builder.append(user.getUsername());
                 builder.append("!");
                 builder.append(System.getProperty("line.separator"));
-                builder.append("Welcome to Appeal. Please, visit next link to: ");
+                builder.append("Welcome to Appeal. Please, visit next link to activate: ");
                 builder.append(prop);
                 builder.append(user.getActivationCode());
                 message = builder.toString();
                 mailSender.send(user.getMail(), "Activation Code", message);
-            }
-            catch (IOException ex){
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
         }
     }
 
-    public void updateUser(User user, String mail) {
+    public void updateUser(User user, String mail, String passwordConfirm) {
         String userMail = user.getMail();
         boolean isMailChanged = (mail != null && !userMail.equals(mail)) || (userMail != null && !mail.equals(userMail));
 
         if (isMailChanged) {
             user.setMail(mail);
-            if (!StringUtils.isEmpty(mail)){
+            if (!StringUtils.isEmpty(mail)) {
                 user.setActivationCode(UUID.randomUUID().toString());
             }
         }
-
+        user.setPassword(passwordEncoder.encode(passwordConfirm));
         userRepository.save(user);
+
         if (isMailChanged) {
             user.setActive(false);
             userRepository.save(user);
             sendActivationCode(user);
         }
+    }
+
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }

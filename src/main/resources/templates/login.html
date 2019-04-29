@@ -16,6 +16,16 @@
         </div>
     </div>
 
+    <div th:if="${messageDanger}">
+        <div class="alert alert-danger" role="alert" th:text="${messageDanger}">
+        </div>
+    </div>
+
+    <div th:if="${messageSuccess}">
+        <div class="alert alert-success" role="alert" th:text="${messageSuccess}">
+        </div>
+    </div>
+
     <form th:action="@{/login}" method="post">
 
         <div class="form-group row">

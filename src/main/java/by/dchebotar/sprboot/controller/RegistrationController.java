@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.Map;
@@ -26,12 +27,17 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String registration(@Valid User user, BindingResult bindingResult, Model model){
-        if (user.getPassword() != null && !user.getPassword().equals(user.getPassword2())){
-            model.addAttribute("passwordError", "Passwords are different");
-            return "registration";
+    public String registration(@RequestParam String passwordConfirm, @Valid User user, BindingResult bindingResult, Model model){
+        boolean isConfirmEmpty = StringUtils.isEmpty(passwordConfirm);
+        if (isConfirmEmpty){
+            model.addAttribute("password2Error", "Password confirmation cannot be empty");
+
         }
-        if (bindingResult.hasErrors()){
+        if (user.getPassword() != null && !user.getPassword().equals(passwordConfirm)){
+            model.addAttribute("passwordError", "Passwords are different");
+
+        }
+        if (isConfirmEmpty || bindingResult.hasErrors()){
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errors);
             return "registration";
@@ -47,10 +53,10 @@ public class RegistrationController {
     public String activation(@PathVariable String activationcode, Model model){
         boolean isActivated = userService.activateUser(activationcode);
         if (isActivated) {
-            model.addAttribute("message", "User succesessfully activated!");
+            model.addAttribute("messageSuccess", "User successfully activated!");
         }
         else {
-            model.addAttribute("message", "Activation code is not found");
+            model.addAttribute("messageDanger", "Activation code is not found");
         }
         return "login";
     }

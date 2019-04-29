@@ -24,7 +24,7 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label"> e-mail : </label>
             <div class="col-sm-6">
-                <input th:class="${mailError}? 'form-control is-invalid' : 'form-control'" type="text" name="mail" th:value="${user?.mail}">
+                <input th:class="${mailError}? 'form-control is-invalid' : 'form-control'" type="email" name="mail" th:value="${user?.mail}">
                 <div th:if="${mailError}" class="invalid-feedback">
                     [[${mailError}]]
                 </div>
@@ -43,9 +43,9 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label"> Confirm password: </label>
             <div class="col-sm-6">
-                <input th:class="${password2Error}? 'form-control is-invalid' : 'form-control'" type="password" name="password2">
-                <div th:if="${password2Error}" class="invalid-feedback">
-                    [[${password2Error}]]
+                <input th:class="${passwordConfirmError}? 'form-control is-invalid' : 'form-control'" type="password" name="passwordConfirm">
+                <div th:if="${passwordConfirmError}" class="invalid-feedback">
+                    [[${passwordConfirmError}]]
                 </div>
             </div>
         </div>

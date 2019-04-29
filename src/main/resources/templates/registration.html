@@ -36,9 +36,9 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label"> Confirm password: </label>
             <div class="col-sm-6">
-                <input th:class="${password2Error}? 'form-control is-invalid' : 'form-control'" type="password" name="password2" placeholder="Confirm password"/>
-                <div th:if="${password2Error}" class="invalid-feedback">
-                    [[${password2Error}]]
+                <input th:class="${passwordConfirmError}? 'form-control is-invalid' : 'form-control'" type="password" name="passwordConfirm" placeholder="Confirm password"/>
+                <div th:if="${passwordConfirmError}" class="invalid-feedback">
+                    [[${passwordConfirmError}]]
                 </div>
             </div>
         </div>
@@ -60,10 +60,6 @@
             <div class="col-sm-6">
                 <input class="btn btn-primary" type="submit" value="Register"/>
             </div>
-        </div>
-
-        <div th:if="${message}">
-            <p th:text="${message}"/>
         </div>
 
     </form>
