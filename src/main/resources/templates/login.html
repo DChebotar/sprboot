@@ -10,17 +10,19 @@
 <div th:insert="parts/navbar :: navbar (${false}, ${false})"></div>
 
 <div class="container mt-5">
+    <div th:if="${param.error}">
+        <div class="alert alert-danger" role="alert">
+            Invalid User Name or Password
+        </div>
+    </div>
 
     <form th:action="@{/login}" method="post">
 
         <div class="form-group row">
             <label class="col-sm-2 col-form-label"> User Name : </label>
             <div class="col-sm-6">
-                <input th:class="${param.error}? 'form-control is-invalid' : 'form-control'" type="text" name="username"
+                <input th:class="form-control" type="text" name="username"
                        placeholder="User Name"/>
-                <div th:if="${param.error}" class="invalid-feedback">
-                    [[${param.error}]]
-                </div>
             </div>
         </div>
 
@@ -36,8 +38,6 @@
                 <input class="btn btn-primary" type="submit" value="Sign In"/>
             </div>
         </div>
-
-        <div th:if="${message}">[[${message}]]</div>
 
     </form>
 

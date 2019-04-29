@@ -7,10 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.Valid;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -29,11 +32,18 @@ public class UserController {
     @PostMapping("/profile")
     public String saveProfile(@AuthenticationPrincipal User user,
                               @RequestParam String mail,
-                              @RequestParam String password,
+                              BindingResult bindingResult,
                               Model model){
-
-        Set<Role> roleSet = user.getRoles();
-        userService.updateUser(user, password, mail == null ? "" : mail);
+        if (user.getPassword() != null && !user.getPassword().equals(user.getPassword2())){
+            model.addAttribute("passwordError", "Passwords are different");
+            return "profile";
+        }
+        if (bindingResult.hasErrors()){
+            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errors);
+            return "profile";
+        }
+        userService.updateUser(user, mail);
         return "redirect:/profile";
     }
 }

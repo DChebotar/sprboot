@@ -76,7 +76,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findByActive(true);
     }
 
-    public void saveUser(User user, String username, String passrord, String mail, boolean active, Map<String, String> form) {
+    public void saveUser(User user, String mail, boolean active, Map<String, String> form) {
         user.getRoles().clear();
         Set<Role> roles = Arrays.stream(Role.values()).collect(Collectors.toSet());
         for (Role role : roles) {
@@ -84,9 +84,7 @@ public class UserService implements UserDetailsService {
                 user.getRoles().add(role);
             }
         }
-        user.setUsername(username);
         user.setMail(mail);
-        user.setPassword(passrord);
         user.setActive(active);
         userRepository.save(user);
     }
@@ -118,7 +116,7 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public void updateUser(User user, String password, String mail) {
+    public void updateUser(User user, String mail) {
         String userMail = user.getMail();
         boolean isMailChanged = (mail != null && !userMail.equals(mail)) || (userMail != null && !mail.equals(userMail));
 
@@ -129,9 +127,6 @@ public class UserService implements UserDetailsService {
             }
         }
 
-        if (!StringUtils.isEmpty(password)){
-            user.setPassword(password);
-        }
         userRepository.save(user);
         if (isMailChanged) {
             user.setActive(false);

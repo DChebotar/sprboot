@@ -59,15 +59,13 @@ public class AdminController {
     }
 
     @PostMapping("/useredit")
-    public String saveEdit(@RequestParam String username,
-                           @RequestParam String mail,
-                           @RequestParam String password,
+    public String saveEdit(@RequestParam String mail,
                            @RequestParam String active,
                            @RequestParam Map<String, String> form,
                            @RequestParam("id") User user,
                            Model model){
-        if (!StringUtils.isEmpty(username) && !StringUtils.isEmpty(password) && !StringUtils.isEmpty(mail)){
-            userService.saveUser(user, username, password, mail, Boolean.valueOf(active), form);
+        if (!StringUtils.isEmpty(mail)){
+            userService.saveUser(user, mail, Boolean.valueOf(active), form);
         }
         else {
             model.addAttribute("message", "All fields must be filled");
